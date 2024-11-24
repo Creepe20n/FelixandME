@@ -235,7 +235,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!60 &668449438
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -296,11 +296,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 668449433}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8f3b8803ae8be7f4181ea8e2b37e9972, type: 3}
+  m_Script: {fileID: 11500000, guid: 149a5a89f34bb944f86f454a6545f12a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Zimgufi: 1
-  Frugnorch: 1
+  Speeeeed: 2
+  fly: {fileID: 668449437}
+  flying: 7
 --- !u!1 &762875503
 GameObject:
   m_ObjectHideFlags: 0
@@ -566,8 +567,8 @@ Transform:
   m_GameObject: {fileID: 1749220019}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 6.49, y: 0.46, z: 0}
-  m_LocalScale: {x: 7.4094, y: 4.4975, z: 1}
+  m_LocalPosition: {x: 6.5, y: -1.35, z: 0}
+  m_LocalScale: {x: 6.930895, y: 3.5406919, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -654,7 +655,7 @@ Transform:
   m_GameObject: {fileID: 2017884021}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.11, y: -3.71, z: 0}
+  m_LocalPosition: {x: -3.23, y: -3.67, z: 0}
   m_LocalScale: {x: 7.4094, y: 4.4975, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
