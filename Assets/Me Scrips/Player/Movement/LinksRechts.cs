@@ -116,6 +116,34 @@ public partial class @LinksRechts: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": true
                 }
             ]
+        },
+        {
+            ""name"": ""Shoot"",
+            ""id"": ""59654df4-ef28-443c-a8ed-0e1c56b7d90b"",
+            ""actions"": [
+                {
+                    ""name"": ""New action"",
+                    ""type"": ""Button"",
+                    ""id"": ""1e1b2bf7-9a3b-413a-8911-301a220f0431"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""5a06891c-1e90-4781-8e7c-2850fd6d9d5f"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""New action"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
@@ -123,11 +151,15 @@ public partial class @LinksRechts: IInputActionCollection2, IDisposable
         // AD
         m_AD = asset.FindActionMap("AD", throwIfNotFound: true);
         m_AD_movement = m_AD.FindAction("movement", throwIfNotFound: true);
+        // Shoot
+        m_Shoot = asset.FindActionMap("Shoot", throwIfNotFound: true);
+        m_Shoot_Newaction = m_Shoot.FindAction("New action", throwIfNotFound: true);
     }
 
     ~@LinksRechts()
     {
         UnityEngine.Debug.Assert(!m_AD.enabled, "This will cause a leak and performance issues, LinksRechts.AD.Disable() has not been called.");
+        UnityEngine.Debug.Assert(!m_Shoot.enabled, "This will cause a leak and performance issues, LinksRechts.Shoot.Disable() has not been called.");
     }
 
     public void Dispose()
@@ -231,8 +263,58 @@ public partial class @LinksRechts: IInputActionCollection2, IDisposable
         }
     }
     public ADActions @AD => new ADActions(this);
+
+    // Shoot
+    private readonly InputActionMap m_Shoot;
+    private List<IShootActions> m_ShootActionsCallbackInterfaces = new List<IShootActions>();
+    private readonly InputAction m_Shoot_Newaction;
+    public struct ShootActions
+    {
+        private @LinksRechts m_Wrapper;
+        public ShootActions(@LinksRechts wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Newaction => m_Wrapper.m_Shoot_Newaction;
+        public InputActionMap Get() { return m_Wrapper.m_Shoot; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(ShootActions set) { return set.Get(); }
+        public void AddCallbacks(IShootActions instance)
+        {
+            if (instance == null || m_Wrapper.m_ShootActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_ShootActionsCallbackInterfaces.Add(instance);
+            @Newaction.started += instance.OnNewaction;
+            @Newaction.performed += instance.OnNewaction;
+            @Newaction.canceled += instance.OnNewaction;
+        }
+
+        private void UnregisterCallbacks(IShootActions instance)
+        {
+            @Newaction.started -= instance.OnNewaction;
+            @Newaction.performed -= instance.OnNewaction;
+            @Newaction.canceled -= instance.OnNewaction;
+        }
+
+        public void RemoveCallbacks(IShootActions instance)
+        {
+            if (m_Wrapper.m_ShootActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(IShootActions instance)
+        {
+            foreach (var item in m_Wrapper.m_ShootActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_ShootActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public ShootActions @Shoot => new ShootActions(this);
     public interface IADActions
     {
         void OnMovement(InputAction.CallbackContext context);
+    }
+    public interface IShootActions
+    {
+        void OnNewaction(InputAction.CallbackContext context);
     }
 }

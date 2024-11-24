@@ -94,6 +94,34 @@
                     "isPartOfComposite": true
                 }
             ]
+        },
+        {
+            "name": "Shoot",
+            "id": "59654df4-ef28-443c-a8ed-0e1c56b7d90b",
+            "actions": [
+                {
+                    "name": "New action",
+                    "type": "Button",
+                    "id": "1e1b2bf7-9a3b-413a-8911-301a220f0431",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "5a06891c-1e90-4781-8e7c-2850fd6d9d5f",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "New action",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": []
